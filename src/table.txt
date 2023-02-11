@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS users
+(
+    id           SERIAL PRIMARY KEY NOT NULL,
+    name         character varying(25),
+    surname      character varying(25),
+    email        character varying(25),
+    phone_number character varying(12),
+    password     character varying
+);

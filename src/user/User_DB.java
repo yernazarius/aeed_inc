@@ -12,8 +12,8 @@ public class User_DB implements i_User {
     }
     @Override
     public boolean create_user(User user) {
-        String sql = "INSERT INTO users(name, surname, email, phone_number, password) VALUES(?, ?, ?, ?, ?)";
-        String sql_2 = "SELECT id, name, surname, phone_number, password FROM users WHERE phone_number = ?";
+        String sql = "INSERT INTO users(name, surname, email, phonenumber, password) VALUES(?, ?, ?, ?, ?)";
+        String sql_2 = "SELECT id, name, surname, email, phonenumber, password FROM users WHERE phonenumber = ?";
         try (Connection connection = db.getConnection();  PreparedStatement ps = connection.prepareStatement(sql); ){
             PreparedStatement ps_2= connection.prepareStatement(sql_2);
             ps_2.setString(1, user.getPhoneNumber());
@@ -34,7 +34,7 @@ public class User_DB implements i_User {
 
     @Override
     public boolean phone_number_exists(String phone_number) {
-        String sql = "SELECT phone_number FROM users WHERE phone_number = ?";
+        String sql = "SELECT phonenumber FROM users WHERE phonenumber = ?";
 
         try (Connection connection = db.getConnection();  PreparedStatement ps = connection.prepareStatement(sql); ){
 

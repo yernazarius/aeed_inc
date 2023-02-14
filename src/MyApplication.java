@@ -115,6 +115,9 @@ public class MyApplication {
     }
 
     public void outputMenu(){
+        int sum = 0;
+        int i =0;
+        String [] chosenItems = new String[500];
         MenuOutput menu = new MenuOutput();
         String[] options ={"dishes", "desserts", "salads", "cakes"};
         while(true) {
@@ -130,9 +133,13 @@ public class MyApplication {
             sum+= menu.orderFood(chosen_id, q);
             System.out.println("What else do you want?");
         }
-        System.out.println("Thank you! Your order is:");
+        System.out.println("Thank you! ");
 
-
+        for(int j = 0; j < i; j++){
+            System.out.println(chosenItems[j]+" tenge");
         }
+        System.out.println("Your order is: " + sum+ " tenge" );
+        System.out.println("As bolsyn!");
     }
+}
 

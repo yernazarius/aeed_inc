@@ -49,7 +49,7 @@ public class User_DB implements i_User {
     @Override
     public boolean password_exists(String password) {
         String sql = "SELECT password FROM users WHERE password = ?";
-        try (Connection connection = db.getConnection();  PreparedStatement ps = connection.prepareStatement(sql);){
+        try (Connection connection = db.getConnection(); PreparedStatement ps = connection.prepareStatement(sql);){
             ps.setString(1, password);
             ResultSet rs = ps.executeQuery();
             return rs.next();

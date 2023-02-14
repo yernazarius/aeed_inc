@@ -7,6 +7,7 @@ import user.User;
 import java.sql.*;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.Arrays;
 
 public class MenuOutput {
     public void displayMenu(String option){
@@ -14,7 +15,7 @@ public class MenuOutput {
         i_db db = new PostgresDB();
         try(Connection conn = db.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();){
+            ResultSet rs = ps.executeQuery()){
             while (rs.next()){
                 System.out.println(rs.getString("id")+" "+rs.getString("name") + " " + rs.getString("price"));
             }

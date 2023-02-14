@@ -117,11 +117,17 @@ public class MyApplication {
     public void outputMenu(){
         MenuOutput menu = new MenuOutput();
         String[] options ={"dishes", "desserts", "salads", "cakes"};
-        vyborka();
         while(true) {
+            vyborka();
             int option = scanner.nextInt();
             if (option == 5) break;
-            menu.displayMenu(options[option-1]);
+            String q = options[option-1];
+            menu.displayMenu(q);
+
+            int chosen_id = scanner.nextInt();
+            menu.outputChosenOrder(chosen_id,q,chosenItems,i);
+            i++;
+            sum+= menu.orderFood(chosen_id, q);
             System.out.println("What else do you want?");
         }
         System.out.println("Thank you! Your order is:");

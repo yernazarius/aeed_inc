@@ -23,4 +23,41 @@ public class MenuOutput {
             throw new RuntimeException(e);
         }
     }
-}
+
+    public Integer orderFood(int index, String option) {
+        String sql = "SELECT id, name, price FROM " + option + " WHERE id = ?";
+        i_db db = new PostgresDB();
+        try(Connection conn = db.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setInt(1, index);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+
+            return rs.getInt("price");
+
+
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+    public void outputChosenOrder(int index, String option, String [] items, int i ){
+
+        String sql = "SELECT id, name, price FROM " + option + " WHERE id = ?";
+        i_db db = new PostgresDB();
+        try(Connection conn = db.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setInt(1, index);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            items[i]=rs.getString("name")+" "+ rs.getInt("price");
+
+        }catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        }
+    }
+

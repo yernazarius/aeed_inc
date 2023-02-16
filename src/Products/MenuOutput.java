@@ -2,14 +2,14 @@ package Products;
 
 import db.PostgresDB;
 import db.i_db;
-import user.User;
 
 import java.sql.*;
 import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class MenuOutput {
+     private final i_db db = new PostgresDB();
+
     public void displayMenu(String option){
         String sql = (new StringBuilder()).append("SELECT id, name, price FROM ").append(option).toString();
         i_db db = new PostgresDB();
@@ -25,9 +25,9 @@ public class MenuOutput {
         }
     }
 
-    public Integer orderFood(int index, String option) {
+    public Integer getPriceOfOrder(int index, String option) {
         String sql = "SELECT id, name, price FROM " + option + " WHERE id = ?";
-        i_db db = new PostgresDB();
+        //i_db db = new PostgresDB();
         try(Connection conn = db.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setInt(1, index);
@@ -46,7 +46,7 @@ public class MenuOutput {
     public void outputChosenOrder(int index, String option, String [] items, int i ){
 
         String sql = "SELECT id, name, price FROM " + option + " WHERE id = ?";
-        i_db db = new PostgresDB();
+       // i_db db = new PostgresDB();
         try(Connection conn = db.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setInt(1, index);

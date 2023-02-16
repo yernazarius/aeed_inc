@@ -1,17 +1,12 @@
 import Products.MenuOutput;
 import user.User;
 import user.User_Controller;
-import user.User_Controller.*;
-import db.i_db;
 import user.User_DB;
-import user.i_User;
 
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Objects;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class MyApplication {
@@ -31,10 +26,20 @@ public class MyApplication {
             String input = scanner.next();
             User user = new User();
             if (input.equalsIgnoreCase("yes")) {
-                user = login_user();
-            } else if (input.equalsIgnoreCase("no")) {
-                user = create_account(user);
-            }
+                     user = login_user();
+                 } else if (input.equalsIgnoreCase("no")) {
+                     user = create_account(user);
+                 }
+            else while(true){
+                    input = scanner.next();
+                    if (input.equalsIgnoreCase("yes")) {
+                        user = login_user();
+                        break;
+                    } else if (input.equalsIgnoreCase("no")) {
+                        user = create_account(user);
+                        break;
+                    }
+            input = scanner.next();}
             System.out.println("Welcome " + user.getName() + " " + user.getSurname()+"!");
             System.out.println("What do you want?");
             outputMenu();
@@ -105,7 +110,7 @@ public class MyApplication {
 
     }
 
-    public void vyborka() {
+    public void printOptions() {
         System.out.println("Choose the menu option:");
         System.out.println("1 - Dishes");
         System.out.println("2 - Desserts");
@@ -115,31 +120,52 @@ public class MyApplication {
     }
 
     public void outputMenu(){
-        int sum = 0;
-        int i =0;
-        String [] chosenItems = new String[500];
-        MenuOutput menu = new MenuOutput();
+        int num = 0;
+        //String [] chosenItems = new String[500];
         String[] options ={"dishes", "desserts", "salads", "cakes"};
         while(true) {
-            vyborka();
+            printOptions();
             int option = scanner.nextInt();
             if (option == 5) break;
-            String q = options[option-1];
-            menu.displayMenu(q);
+            while(option<1 || option>5){
+                System.out.println("Incorrect input! Please try again)");
+                option = scanner.nextInt();
+            }
+
+            String type = options[option-1];
+            menu.displayMenu(type);
 
             int chosen_id = scanner.nextInt();
-            menu.outputChosenOrder(chosen_id,q,chosenItems,i);
-            i++;
-            sum+= menu.orderFood(chosen_id, q);
+            boolean isCorrectId = true;
+            try {
+                sum += menu.getPriceOfOrder(chosen_id, type);
+            } catch (Exception e){
+                isCorrectId = false;
+            }
+            if(!isCorrectId){
+                System.out.println("There is an error. Please enter again:");
+                chosen_id = scanner.nextInt();
+                sum += menu.getPriceOfOrder(chosen_id, type);
+            }
+            menu.outputChosenOrder(chosen_id,type,chosenItems,num);
+            num++;
+
             System.out.println("What else do you want?");
         }
         System.out.println("Thank you! ");
 
-        for(int j = 0; j < i; j++){
-            System.out.println(chosenItems[j]+" tenge");
+        printList(chosenItems);
+
+        System.out.println("Your order is: " + sum+ " tenge. Do u wanna edit it? Yes or no?" );
+        String ans = scanner.next();
+        if (ans.equalsIgnoreCase("yes")) {
+            editTheList(chosenItems);
+            if (isEdited) return;
+            printList(chosenItems);
+        } else {
+            System.out.println("As bolsyn!");
+            return;
         }
-        System.out.println("Your order is: " + sum+ " tenge" );
-        System.out.println("As bolsyn!");
     }
 }
 

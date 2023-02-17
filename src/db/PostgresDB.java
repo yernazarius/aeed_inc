@@ -10,6 +10,7 @@ public class PostgresDB implements i_db{
         //String connection = "jdbc:postgresql://localhost:5433/canteendb";
         String connection = "jdbc:postgresql://localhost:5432/CanteenDB";
         Class.forName("org.postgresql.Driver");
+
         return DriverManager.getConnection(connection, "postgres", "12345");
     }
 }

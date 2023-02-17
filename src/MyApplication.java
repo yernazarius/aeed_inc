@@ -23,23 +23,21 @@ public class MyApplication {
             System.out.println("Hello! Welcome to online-canteen AEED-INC!");
             System.out.println("Do you have account?");
             System.out.println("Please enter `Yes` or `No`");
-            String input = scanner.next();
+            String input = scanner.next();;
             User user = new User();
-            if (input.equalsIgnoreCase("yes")) {
-                     user = login_user();
-                 } else if (input.equalsIgnoreCase("no")) {
-                     user = create_account(user);
-                 }
-            else while(true){
-                    input = scanner.next();
-                    if (input.equalsIgnoreCase("yes")) {
+            while(true){
+                if (input.equalsIgnoreCase("yes")) {
                         user = login_user();
                         break;
                     } else if (input.equalsIgnoreCase("no")) {
                         user = create_account(user);
                         break;
                     }
-            input = scanner.next();}
+                    else {
+                        System.out.println("Input is incorrect!. Please enter again: ");
+                        input = scanner.next();
+                    }
+            }
             System.out.println("Welcome " + user.getName() + " " + user.getSurname()+"!");
             System.out.println("What do you want?");
             outputMenu();
@@ -138,26 +136,30 @@ public class MyApplication {
             int chosen_id = scanner.nextInt();
             boolean isCorrectId = true;
             try {
-                sum += menu.getPriceOfOrder(chosen_id, type);
+                prices.add(menu.getPriceOfOrder(chosen_id, type));
+                //sum += menu.getPriceOfOrder(chosen_id, type);
             } catch (Exception e){
                 isCorrectId = false;
             }
             if(!isCorrectId){
                 System.out.println("There is an error. Please enter again:");
                 chosen_id = scanner.nextInt();
-                sum += menu.getPriceOfOrder(chosen_id, type);
+
             }
-            menu.outputChosenOrder(chosen_id,type,chosenItems,num);
-            num++;
+            menu.outputChosenOrder(chosen_id,type,chosenItems);
 
             System.out.println("What else do you want?");
         }
         System.out.println("Thank you! ");
 
         printList(chosenItems);
-
-        System.out.println("Your order is: " + sum+ " tenge. Do u wanna edit it? Yes or no?" );
+        sum = calculateSum(prices);
+        System.out.println("Your order is: " + sum + " tenge. Do u wanna edit it? Yes or no?" );
         String ans = scanner.next();
+        while (!ans.equalsIgnoreCase("yes") && !ans.equalsIgnoreCase("no")) {
+            System.out.println("Incorrect input. try again");
+            ans = scanner.next();
+        }
         if (ans.equalsIgnoreCase("yes")) {
             editTheList(chosenItems);
             if (isEdited) return;
